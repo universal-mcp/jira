@@ -5,7 +5,31 @@ from universal_mcp.integrations import Integration
 class JiraApp(APIApplication):
     def __init__(self, integration: Integration = None, **kwargs) -> None:
         super().__init__(name='jira', integration=integration, **kwargs)
-        self.base_url = "https://your-domain.atlassian.net"
+        self._base_url: str | None = None 
+
+    @property
+    def base_url(self):
+        """Fetches accessible resources and sets the base_url for the first resource found."""
+        if self._base_url:
+            return self._base_url
+        url = "https://api.atlassian.com/oauth/token/accessible-resources"
+        response = self._get(url) 
+        response.raise_for_status() 
+        
+        resources = response.json() 
+
+        if not resources:
+            raise ValueError("No accessible Jira resources found for the provided credentials.")
+
+        first_resource = resources[0]
+        resource_id = first_resource.get("id")
+
+        if not resource_id:
+            raise ValueError("Could not determine the resource ID from the first accessible resource.")
+
+        self._base_url = f"https://api.atlassian.com/ex/jira/{resource_id}"
+
+        return self._base_url  
 
     def get_banner(self) -> dict[str, Any]:
         """
