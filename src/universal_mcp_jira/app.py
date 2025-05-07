@@ -29,7 +29,16 @@ class JiraApp(APIApplication):
 
         self._base_url = f"https://api.atlassian.com/ex/jira/{resource_id}"
 
-        return self._base_url  
+        return self._base_url
+
+    @base_url.setter
+    def base_url(self, value: str) -> None:
+        """Sets the base URL for the Confluence API.
+        
+        Args:
+            value (str): The base URL to set.
+        """
+        self._base_url = value
 
     def get_banner(self) -> dict[str, Any]:
         """
