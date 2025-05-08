@@ -48,7 +48,7 @@ class JiraApp(APIApplication):
             dict[str, Any]: Returned if the request is successful.
 
         Tags:
-            Announcement banner
+            Announcement banner, important
         """
         url = f"{self.base_url}/rest/api/3/announcementBanner"
         query_params = {}
@@ -5067,7 +5067,7 @@ class JiraApp(APIApplication):
             dict[str, Any]: Returned if the request is successful.
 
         Tags:
-            Issues
+            Issues, important
         """
         request_body = {
             'fields': fields,
@@ -5495,7 +5495,7 @@ class JiraApp(APIApplication):
             dict[str, Any]: Returned if the request is successful. A response may contain both successful issues and issue errors.
 
         Tags:
-            Issues
+            Issues, important
         """
         request_body = {
             'expand': expand,
@@ -6163,7 +6163,7 @@ class JiraApp(APIApplication):
             dict[str, Any]: Returned if the request is successful.
 
         Tags:
-            Issue comments
+            Issue comments ,important
         """
         if issueIdOrKey is None:
             raise ValueError("Missing required parameter 'issueIdOrKey'")
