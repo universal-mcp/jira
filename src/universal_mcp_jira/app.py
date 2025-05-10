@@ -1,22 +1,23 @@
 from typing import Any
 from universal_mcp.applications import APIApplication
 from universal_mcp.integrations import Integration
+import httpx
 
 class JiraApp(APIApplication):
     def __init__(self, integration: Integration = None, **kwargs) -> None:
         super().__init__(name='jira', integration=integration, **kwargs)
         self._base_url: str | None = None 
 
-    @property
-    def base_url(self):
-        """Fetches accessible resources and sets the base_url for the first resource found."""
-        if self._base_url:
-            return self._base_url
+    def get_base_url(self):
+
+        headers = self._get_headers()
+        print("DEBUG: Headers being sent to Atlassian API:", headers)  # Add this line
         url = "https://api.atlassian.com/oauth/token/accessible-resources"
-        response = self._get(url) 
-        response.raise_for_status() 
-        
-        resources = response.json() 
+
+
+        response = httpx.get(url, headers=headers)
+        response.raise_for_status()
+        resources=  response.json()
 
         if not resources:
             raise ValueError("No accessible Jira resources found for the provided credentials.")
@@ -27,9 +28,15 @@ class JiraApp(APIApplication):
         if not resource_id:
             raise ValueError("Could not determine the resource ID from the first accessible resource.")
 
-        self._base_url = f"https://api.atlassian.com/ex/jira/{resource_id}"
-
+        return f"https://api.atlassian.com/ex/jira/{resource_id}" 
+    @property
+    def base_url(self):
+        """Fetches accessible resources and sets the base_url for the first resource found."""
+        if self._base_url:
+            return self._base_url
+        self._base_url = self.get_base_url()
         return self._base_url
+
 
     @base_url.setter
     def base_url(self, value: str) -> None:
