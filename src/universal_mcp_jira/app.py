@@ -58,7 +58,7 @@ class JiraApp(APIApplication):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Announcement banner
+            Announcement banner, important
         """
         url = f"{self.base_url}/rest/api/3/announcementBanner"
         query_params = {}
@@ -89,7 +89,7 @@ class JiraApp(APIApplication):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Announcement banner
+            Announcement banner, important
         """
         request_body_data = None
         request_body_data = {
@@ -11486,7 +11486,7 @@ class JiraApp(APIApplication):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Teams in plan
+            Teams in plan, important
         """
         if planId is None:
             raise ValueError("Missing required parameter 'planId'.")
@@ -11520,7 +11520,7 @@ class JiraApp(APIApplication):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Teams in plan
+            Teams in plan, important
         """
         if planId is None:
             raise ValueError("Missing required parameter 'planId'.")
@@ -13434,7 +13434,7 @@ class JiraApp(APIApplication):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Project roles
+            Project roles, important
         """
         if projectIdOrKey is None:
             raise ValueError("Missing required parameter 'projectIdOrKey'.")
@@ -20118,7 +20118,7 @@ class JiraApp(APIApplication):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Workflow schemes
+            Workflow schemes, important
         """
         if id is None:
             raise ValueError("Missing required parameter 'id'.")
@@ -20153,7 +20153,7 @@ class JiraApp(APIApplication):
             JSONDecodeError: Raised if the response body cannot be parsed as JSON.
 
         Tags:
-            Workflow schemes
+            Workflow schemes, important
         """
         if id is None:
             raise ValueError("Missing required parameter 'id'.")
