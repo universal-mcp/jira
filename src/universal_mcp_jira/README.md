@@ -12,7 +12,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_banner` | Retrieves the configuration of the announcement banner using the Jira Cloud API. |
 | `set_banner` | Updates the announcement banner configuration in Jira Cloud, including message, visibility, and dismissal settings. |
 | `get_custom_fields_configurations` | Retrieves and filters a list of custom field context configurations in Jira based on specified criteria like field ID, project, or issue type, returning paginated results. |
-| `update_multiple_custom_field_values` | Updates the value of a custom field added by a Forge app on one or more Jira issues. |
+| `set_field_value` | Updates the value of a custom field added by a Forge app on one or more Jira issues. |
 | `get_custom_field_configuration` | Retrieves the configuration of a custom field context in Jira using the provided field ID or key, optionally filtered by specific IDs, field context IDs, issue IDs, project keys or IDs, or issue types, and returns a paginated list of configurations. |
 | `update_custom_field_configuration` | Updates the configuration of a custom field context in Jira using the provided field ID or key. |
 | `update_custom_field_value` | Updates the value of a custom field for an issue using the Jira API, but this endpoint is limited to working with fields provided by Forge apps. |
@@ -40,11 +40,12 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `submit_bulk_watch` | Adds watchers to multiple Jira issues in bulk through a single operation. |
 | `get_bulk_operation_progress` | Retrieves the status of a bulk operation task identified by the specified taskId. |
 | `get_bulk_changelogs` | Retrieves changelog data for multiple Jira issues in a single request, eliminating the need for individual API calls per issue. |
-| `get_all_user_data_classification_levels` | Retrieves a list of all classification levels in Jira Cloud, supporting optional filtering by status and ordering using the "orderBy" parameter. |
+| `list_classification_levels` | Retrieves a list of all classification levels in Jira Cloud, supporting optional filtering by status and ordering using the "orderBy" parameter. |
 | `get_comments_by_ids` | Fetches a paginated list of Jira comments by their IDs using a POST request. |
 | `get_comment_property_keys` | Retrieves the keys of all properties associated with a specified issue comment in Jira Cloud using the REST API. |
 | `delete_comment_property` | Deletes a specific property from a comment in Jira using the Jira Cloud REST API and returns a status code upon successful deletion. |
 | `get_comment_property` | Retrieves the value of a specific property for an issue comment in Jira using the comment ID and property key. |
+| `set_comment_property` | Updates the value of a specific property for a Jira comment using the PUT method, storing custom data against a comment identified by its ID and property key. |
 | `find_components_for_projects` | Retrieves a list of Jira components using the GET method at the "/rest/api/3/component" path, allowing filtering by project IDs, pagination, and sorting, and returns the results in a paginated format. |
 | `create_component` | Creates a new component in Jira, providing a container for issues within a project, using the POST method on the "/rest/api/3/component" endpoint. |
 | `delete_component` | Deletes a specific component in Jira by ID, optionally reassigning its issues to another component. |
@@ -52,16 +53,16 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `update_component` | Updates the specified component's details using the provided ID. |
 | `get_component_related_issues` | Retrieves the issue counts related to a specific Jira component identified by its ID using the "GET" method. |
 | `get_configuration` | Retrieves configuration details from Jira using the GET method and returns the result in the response. |
-| `get_selected_time_tracking_implementation` | Retrieves the time tracking settings in Jira, including time format and default time unit, using the GET method at "/rest/api/3/configuration/timetracking". |
-| `select_time_tracking_implementation` | Updates time tracking settings in Jira using the Jira Cloud platform REST API at "/rest/api/3/configuration/timetracking" with a "PUT" method, allowing configurations such as time format and default time unit. |
-| `get_available_time_tracking_implementations` | Retrieves a list of all configured time tracking providers in Jira, including the active provider if time tracking is enabled. |
-| `get_shared_time_tracking_configuration` | Retrieves time tracking configuration settings such as time format and default units using the Jira Cloud REST API. |
-| `set_shared_time_tracking_configuration` | Updates Jira time tracking configuration settings including time format, working hours, and default time unit. |
+| `get_time_tracking_config` | Retrieves the time tracking settings in Jira, including time format and default time unit, using the GET method at "/rest/api/3/configuration/timetracking". |
+| `update_time_tracking_config` | Updates time tracking settings in Jira using the Jira Cloud platform REST API at "/rest/api/3/configuration/timetracking" with a "PUT" method, allowing configurations such as time format and default time unit. |
+| `list_time_tracking_configs` | Retrieves a list of all configured time tracking providers in Jira, including the active provider if time tracking is enabled. |
+| `get_time_tracking_options` | Retrieves time tracking configuration settings such as time format and default units using the Jira Cloud REST API. |
+| `update_time_tracking_options` | Updates Jira time tracking configuration settings including time format, working hours, and default time unit. |
 | `get_custom_field_option` | Retrieves a full representation of a custom field option by its ID using the Jira REST API. |
 | `get_all_dashboards` | Retrieves a list of Jira dashboards using the GET method, allowing for optional filtering, pagination with start and max results parameters. |
 | `create_dashboard` | Creates a new dashboard in Jira Cloud using the REST API and returns a response indicating the success or failure of the operation. |
 | `bulk_edit_dashboards` | Bulk updates permissions and settings for multiple Jira dashboards in a single operation. |
-| `get_all_available_dashboard_gadgets` | Retrieves a list of available gadgets that can be added to Jira dashboards using the Jira Cloud API. |
+| `get_gadgets` | Retrieves a list of available gadgets that can be added to Jira dashboards using the Jira Cloud API. |
 | `get_dashboards_paginated` | Searches for Jira dashboards using specified criteria, such as dashboard name, account ID, owner, group name, group ID, project ID, and other parameters, and returns a list of matching dashboards. |
 | `get_all_gadgets` | Retrieves a specific gadget or all gadgets from a Jira dashboard. |
 | `add_gadget` | Adds a gadget to a specified Jira dashboard using the provided configuration and returns the created gadget details upon success. |
@@ -70,6 +71,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_dashboard_item_property_keys` | Retrieves all property keys for a specific dashboard item in Jira using provided dashboard and item IDs. |
 | `delete_dashboard_item_property` | Deletes a dashboard item property (identified by propertyKey) from a specific dashboard item, accessible anonymously but requiring dashboard ownership for successful deletion. |
 | `get_dashboard_item_property` | Retrieves a specific property of a dashboard item using the Jira API, returning the property value associated with the given dashboard ID, item ID, and property key. |
+| `set_dashboard_item_property` | Updates or creates a specific property for an item on a dashboard using the PUT method, identified by dashboardId, itemId, and propertyKey, returning success or creation status. |
 | `delete_dashboard` | Deletes a dashboard identified by its ID using the "DELETE" method and returns a successful status if the operation is completed without errors. |
 | `get_dashboard` | Retrieves the details of a specific Jira dashboard by ID. |
 | `update_dashboard` | Updates a dashboard with the specified ID using the PUT method, optionally extending admin permissions, and returns a status message if successful. |
@@ -91,8 +93,8 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `create_custom_field_context` | Creates a new custom field context for the specified field ID, defining its project and issue type associations. |
 | `get_default_values` | Retrieves the default values for contexts of a specified custom field in Jira, including optional pagination parameters for larger datasets. |
 | `set_default_values` | Sets the default value for a specified custom field context via the Jira REST API. |
-| `get_issue_type_mappings_for_contexts` | Retrieves a paginated list of context to issue type mappings for a specified custom field using the Jira Cloud API, allowing for filters by context ID, start index, and maximum results. |
-| `get_custom_field_contexts_for_projects_and_issue_types` | Retrieves and maps custom field contexts to specific projects and issue types for a given custom field ID. |
+| `get_field_issue_type_mappings` | Retrieves a paginated list of context to issue type mappings for a specified custom field using the Jira Cloud API, allowing for filters by context ID, start index, and maximum results. |
+| `post_field_context_mapping` | Retrieves and maps custom field contexts to specific projects and issue types for a given custom field ID. |
 | `get_project_context_mapping` | Retrieves paginated mappings between projects and custom field contexts, optionally filtered by context ID. |
 | `delete_custom_field_context` | Deletes a custom field context in Jira using the provided `fieldId` and `contextId`, removing it from the system. |
 | `update_custom_field_context` | Updates a custom field context's configuration in Jira, including associated projects and issue types. |
@@ -104,8 +106,8 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `reorder_custom_field_options` | Reorders custom field options or cascading options within a specified context using the provided IDs and position parameters. |
 | `delete_custom_field_option` | Deletes a specific custom field option within a designated custom field context in Jira. |
 | `replace_custom_field_option` | Deletes a specific custom field option within a context for a Jira field, allowing optional replacement via query parameters. |
-| `assign_projects_to_custom_field_context` | Updates a custom field context by adding a project to it, using the Jira Cloud platform REST API, and returns a status message based on the operation's success or failure. |
-| `remove_custom_field_context_from_projects` | Removes specified projects from a custom field context in Jira, causing it to apply to all projects if no projects remain. |
+| `assign_project_field_context` | Updates a custom field context by adding a project to it, using the Jira Cloud platform REST API, and returns a status message based on the operation's success or failure. |
+| `remove_project_from_field_context` | Removes specified projects from a custom field context in Jira, causing it to apply to all projects if no projects remain. |
 | `get_contexts_for_field_deprecated` | Retrieves a paginated list of contexts for a specified custom field in Jira, allowing filtering by start index and maximum number of results. |
 | `get_screens_for_field` | Retrieves a list of screens that include a specified field, identified by the `fieldId` parameter, allowing for pagination and expansion of results. |
 | `get_all_issue_field_options` | Retrieves a paginated list of all custom field options for a specified field, supporting pagination via startAt and maxResults parameters. |
@@ -125,15 +127,15 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `update_field_configuration` | Updates a field configuration (name and description) in company-managed Jira projects, requiring Administer Jira permissions. |
 | `get_field_configuration_items` | Retrieves a list of fields associated with a field configuration specified by its ID, allowing pagination via optional startAt and maxResults parameters. |
 | `update_field_configuration_items` | Updates the fields of a field configuration in Jira using the PUT method with the specified configuration ID. |
-| `get_all_field_configuration_schemes` | Retrieves field configuration schemes in Jira with support for pagination and optional ID filtering. |
+| `list_field_configs` | Retrieves field configuration schemes in Jira with support for pagination and optional ID filtering. |
 | `create_field_configuration_scheme` | Creates a field configuration scheme using the Jira Cloud platform REST API. |
-| `get_field_configuration_scheme_mappings` | Retrieves mappings for a specified field configuration scheme using the Jira API, providing details of how fields are configured across projects. |
-| `get_field_configuration_scheme_project_mapping` | Retrieves a paginated list of field configuration schemes for a specified project, including the projects that use each scheme, using the `GET` method at the `/rest/api/3/fieldconfigurationscheme/project` path. |
-| `assign_field_configuration_scheme_to_project` | Updates a field configuration scheme associated with a project using the Jira Cloud API, specifically for company-managed (classic) projects. |
+| `get_field_mapping` | Retrieves mappings for a specified field configuration scheme using the Jira API, providing details of how fields are configured across projects. |
+| `get_field_configs_for_project` | Retrieves a paginated list of field configuration schemes for a specified project, including the projects that use each scheme, using the `GET` method at the `/rest/api/3/fieldconfigurationscheme/project` path. |
+| `update_field_config_scheme_project` | Updates a field configuration scheme associated with a project using the Jira Cloud API, specifically for company-managed (classic) projects. |
 | `delete_field_configuration_scheme` | Deletes a field configuration scheme from Jira by ID, requiring Administer Jira permissions. |
 | `update_field_configuration_scheme` | Updates a field configuration scheme using its ID, applicable only to company-managed projects, requiring the *Administer Jira* global permission. |
-| `set_field_configuration_scheme_mapping` | Updates the field configuration scheme mapping using the Jira Cloud API and returns a status message. |
-| `remove_issue_types_from_global_field_configuration_scheme` | Removes specified issue types from a field configuration scheme in Jira via a POST request. |
+| `update_field_config_scheme_mapping` | Updates the field configuration scheme mapping using the Jira Cloud API and returns a status message. |
+| `delete_field_config_mapping` | Removes specified issue types from a field configuration scheme in Jira via a POST request. |
 | `create_filter` | Creates a Jira filter with specified parameters such as name, JQL query, and visibility, returning the newly created filter details. |
 | `get_default_share_scope` | Retrieves the default sharing scope setting for Jira filters. |
 | `set_default_share_scope` | Sets the default share scope for new filters and dashboards using the Jira Cloud REST API, allowing users to set the scope to either GLOBAL or PRIVATE. |
@@ -183,6 +185,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_issue` | Retrieves detailed information about a Jira issue using its ID or key, allowing optional parameters to specify fields, expansions, and additional data. |
 | `edit_issue` | Updates an issue in Jira using the specified issue ID or key, allowing modification of issue fields, with optional parameters to control notification, screen security, editable flags, and response details. |
 | `assign_issue` | Assigns or unassigns a Jira issue to a specific user, sets it to unassigned, or assigns it to the project's default assignee using the provided account ID or null value. |
+| `add_attachment` | Adds one or more attachments to a specified Jira issue using the "POST" method, with the issue identified by its ID or key. |
 | `get_change_logs` | Retrieves paginated changelog history for a specified Jira issue, including parameters for result pagination. |
 | `get_change_logs_by_ids` | Retrieves the full changelog history for a specified Jira issue using its ID or key, allowing for pagination and retrieval of all changes. |
 | `get_comments` | Retrieves all comments for a specified Jira issue using pagination parameters. |
@@ -195,7 +198,8 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_issue_property_keys` | Retrieves the URLs and keys of all properties associated with a specified Jira issue using the issue ID or key. |
 | `delete_issue_property` | Deletes a specific property from an issue in Jira, identified by its issue ID or key and the property key, using the Jira API. |
 | `get_issue_property` | Retrieves the value of a specific property associated with a Jira issue using the provided issue ID or key and property key. |
-| `delete_remote_issue_link_by_global_id` | Deletes a remote issue link from a Jira issue using either the link's internal ID or its global ID. |
+| `set_issue_property` | Updates an issue property in Jira using the PUT method, allowing users to set or modify custom data associated with an issue by issue ID or key and property key. |
+| `delete_remote_link` | Deletes a remote issue link from a Jira issue using either the link's internal ID or its global ID. |
 | `get_remote_issue_links` | Retrieves a list of remote links associated with a specified Jira issue, identified by its ID or key, using the GET method at the "/rest/api/3/issue/{issueIdOrKey}/remotelink" path, allowing for optional filtering by global ID. |
 | `create_or_update_remote_issue_link` | Creates a remote link to an external object for a specified Jira issue, allowing users to associate external resources with issue tracking in Jira. |
 | `delete_remote_issue_link_by_id` | Deletes a remote issue link from a specified Jira issue using the link's internal ID. |
@@ -208,6 +212,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `add_vote` | Casts a vote on a Jira issue and returns no content on success. |
 | `remove_watcher` | Removes a specified user as a watcher from a Jira issue via their username or account ID and returns a success status upon completion. |
 | `get_issue_watchers` | Retrieves the list of watchers for a specific Jira issue using the provided issue ID or key. |
+| `add_watcher` | Adds a user as a watcher to a specified Jira issue by passing the user's account ID, returning a status message upon successful execution. |
 | `bulk_delete_worklogs` | Deletes a worklog from a specific issue in Jira using the provided issue ID or key, allowing for optional adjustments to the estimate and overriding of editable flags. |
 | `get_issue_worklog` | Retrieves a paginated list of worklogs for a specific Jira issue using the "GET" method, allowing filtering by start date and other parameters. |
 | `add_worklog` | Adds a worklog entry to a Jira issue for time tracking and returns the created worklog details. |
@@ -218,6 +223,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_worklog_property_keys` | Retrieves the keys of all custom properties stored against a specific worklog entry in Jira issues. |
 | `delete_worklog_property` | Deletes a specific property from a Jira issue's worklog entry. |
 | `get_worklog_property` | Retrieves the value of a specific property associated with a worklog for a given issue in Jira using the specified issue ID/key, worklog ID, and property key. |
+| `set_worklog_property` | Updates a specific property of a worklog in Jira using the PUT method, allowing for custom data storage against the worklog. |
 | `link_issues` | Creates a link between two Jira issues, allowing you to define the relationship type and optionally include a comment, using the POST method at the "/rest/api/3/issueLink" endpoint. |
 | `delete_issue_link` | Deletes a specific issue link in Jira by its link ID and returns a success status. |
 | `get_issue_link` | Retrieves details of a specific issue link in Jira by its unique identifier using the Jira REST API. |
@@ -232,7 +238,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_security_levels` | Retrieves details of issue security levels within a scheme, including pagination support and filtering by scheme ID or default status. |
 | `set_default_levels` | Sets default issue security levels for schemes, allowing administrators to configure which security levels are applied by default across specified issue security schemes. |
 | `get_security_level_members` | Retrieves the members of a specific issue security level using the Jira Cloud API, allowing for pagination and expansion of details by specifying parameters such as start index, maximum results, and expansion options. |
-| `search_projects_using_security_schemes` | Retrieves projects associated with specific issue security schemes based on scheme ID or project ID query parameters. |
+| `list_security_schemes_by_project` | Retrieves projects associated with specific issue security schemes based on scheme ID or project ID query parameters. |
 | `associate_schemes_to_projects` | Associates an issue security scheme with a project using the Jira Cloud API, allowing for the remapping of security levels for issues, with the operation being asynchronous. |
 | `search_security_schemes` | Searches for and returns issue security schemes in Jira Cloud, allowing filtering by start index, maximum results, ID, or project ID. |
 | `get_issue_security_scheme` | Retrieves the details of a specific issue security scheme by its ID, including associated security levels and project mappings. |
@@ -251,9 +257,11 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_issue_type` | Retrieves detailed information about a specific issue type in Jira by its ID using the "GET" method. |
 | `update_issue_type` | Updates an existing Jira issue type by its ID, returning the modified issue type details or relevant error responses. |
 | `get_alternative_issue_types` | Retrieves alternative issue types for a specified issue type ID using the Jira Cloud REST API. |
+| `create_issue_type_avatar` | Generates an avatar for a specific issue type in Jira using the "POST" method at the path "/rest/api/3/issuetype/{id}/avatar2", allowing parameters such as size and other query parameters. |
 | `get_issue_type_property_keys` | Retrieves all property keys for a specific Jira issue type using the issueTypeId path parameter. |
 | `delete_issue_type_property` | Deletes a specific property from an issue type in Jira using the specified property key and issue type ID. |
 | `get_issue_type_property` | Retrieves a specific custom property associated with an issue type using its unique identifier and property key. |
+| `set_issue_type_property` | Creates or updates a custom property value for a specific Jira issue type, requiring admin permissions and returning success codes for creation/update. |
 | `get_all_issue_type_schemes` | Retrieves a paginated list of issue type schemes with optional filtering by ID, ordering, and expansion of related entities. |
 | `create_issue_type_scheme` | Creates a new issue type scheme in Jira and returns the created resource. |
 | `get_issue_type_schemes_mapping` | Retrieves a paginated list of issue type scheme mappings for classic Jira projects, filtered by scheme ID. |
@@ -262,22 +270,22 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `delete_issue_type_scheme` | Deletes an issue type scheme by its ID, reassigning any associated projects to the default issue type scheme. |
 | `update_issue_type_scheme` | Updates an issue type scheme by modifying its configuration (such as associated issue types) for the specified scheme ID. |
 | `add_issue_types_to_issue_type_scheme` | Adds issue types to an existing issue type scheme in Jira Cloud, appending them to the current list and returning a success status if the operation completes without conflicts. |
-| `reorder_issue_types_in_issue_type_scheme` | Moves issue types within a specified issue type scheme in Jira and returns an empty response on success. |
-| `remove_issue_type_from_issue_type_scheme` | Deletes an issue type from an issue type scheme using the Jira Cloud API by specifying the `issueTypeSchemeId` and `issueTypeId`, allowing for removal of issue types from schemes. |
-| `get_issue_type_screen_schemes` | Retrieves a list of issue type screen schemes in Jira with options to filter, paginate, and expand results. |
+| `move_issue_type_in_scheme` | Moves issue types within a specified issue type scheme in Jira and returns an empty response on success. |
+| `remove_issue_type_from_scheme_by_id` | Deletes an issue type from an issue type scheme using the Jira Cloud API by specifying the `issueTypeSchemeId` and `issueTypeId`, allowing for removal of issue types from schemes. |
+| `get_all_issue_type_screen_schemes` | Retrieves a list of issue type screen schemes in Jira with options to filter, paginate, and expand results. |
 | `create_issue_type_screen_scheme` | Creates an issue type screen scheme using the Jira Cloud API, allowing administrators to map issue types to specific screen schemes for organizing project workflows. |
-| `get_issue_type_screen_scheme_mappings` | Retrieves a list of issue type to screen scheme mappings associated with a specified issue type screen scheme using the Jira Cloud API. |
-| `get_issue_type_screen_scheme_project_associations` | Retrieves a paginated list of issue type screen schemes and their associated projects using the specified query parameters. |
-| `assign_issue_type_screen_scheme_to_project` | Assigns an issue type screen scheme to a project using the Jira API, requiring *Administer Jira* global permission to update project configurations. |
+| `list_mappings` | Retrieves a list of issue type to screen scheme mappings associated with a specified issue type screen scheme using the Jira Cloud API. |
+| `get_project_screen_schemes` | Retrieves a paginated list of issue type screen schemes and their associated projects using the specified query parameters. |
+| `update_project_scheme` | Assigns an issue type screen scheme to a project using the Jira API, requiring *Administer Jira* global permission to update project configurations. |
 | `delete_issue_type_screen_scheme` | Deletes an issue type screen scheme in Jira and returns a success status upon removal. |
 | `update_issue_type_screen_scheme` | Updates the default screen scheme for unmapped issue types in the specified issue type screen scheme. |
-| `append_mappings_for_issue_type_screen_scheme` | Updates the mappings of an issue type screen scheme using the PUT method, specifically allowing administrators to append or modify issue type to screen scheme mappings by providing the necessary `issueTypeScreenSchemeId` in the path. |
+| `update_issue_type_screen_mapping` | Updates the mappings of an issue type screen scheme using the PUT method, specifically allowing administrators to append or modify issue type to screen scheme mappings by providing the necessary `issueTypeScreenSchemeId` in the path. |
 | `update_default_screen_scheme` | Updates the default screen scheme mapping for an issue type screen scheme identified by the `{issueTypeScreenSchemeId}` using the PUT method, which is used for all unmapped issue types in Jira. |
-| `remove_mappings_from_issue_type_screen_scheme` | Removes issue type to screen scheme mappings from an issue type screen scheme in Jira using the provided issue type IDs. |
-| `get_projects_for_issue_type_screen_scheme` | Retrieves a paginated list of projects associated with a specific issue type screen scheme. |
+| `remove_issue_type_mapping` | Removes issue type to screen scheme mappings from an issue type screen scheme in Jira using the provided issue type IDs. |
+| `fetch_project_by_scheme` | Retrieves a paginated list of projects associated with a specific issue type screen scheme. |
 | `get_auto_complete` | Retrieves JQL search auto-complete data including field references, operators, and suggestions to assist in programmatic query construction. |
 | `get_auto_complete_post` | Provides JQL search auto-complete data and field reference information to assist in programmatic query construction or validation. |
-| `get_field_auto_complete_for_query_string` | Retrieves JQL search autocomplete suggestions for specific fields, values, predicates, or predicate values to assist in query construction. |
+| `get_jql_suggestions` | Retrieves JQL search autocomplete suggestions for specific fields, values, predicates, or predicate values to assist in query construction. |
 | `get_precomputations` | Retrieves a list of precomputations for a specified JQL function, including when they were created, updated, and last used, allowing apps to inspect their own functions. |
 | `update_precomputations` | Updates precomputations (JQL fragments mapped to custom functions) and optionally skips invalid entries based on query parameters. |
 | `get_precomputations_by_id` | Performs a computation search using JQL functions in Jira Cloud, allowing users to specify an **orderBy** parameter and returns the results of the computation search via a POST request. |
@@ -287,22 +295,23 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `sanitise_jql_queries` | Sanitizes one or more JQL queries by converting readable details into IDs where a user lacks permission to view the entity, ensuring that unauthorized project names are replaced with project IDs. |
 | `get_all_labels` | Retrieves a paginated list of labels starting from a specified index and limited by a maximum number of results using the Jira API. |
 | `get_approximate_license_count` | Retrieves the approximate user license count for a Jira instance, which may be cached for up to 7 days. |
-| `get_approximate_application_license_count` | Retrieves the approximate license count for a specific application in Jira Cloud using the provided application key. |
+| `get_license_count_by_product_key` | Retrieves the approximate license count for a specific application in Jira Cloud using the provided application key. |
 | `get_my_permissions` | Retrieves the current user's permissions in Jira, optionally filtered by project, issue, or specific permission keys, and indicates whether each permission is granted. |
 | `remove_preference` | Deletes a user's Jira preference specified by the key query parameter and returns a 204 status code on success. |
 | `get_preference` | Retrieves the specified user preference value for the currently authenticated user using the provided key parameter. |
+| `set_preference` | Creates or updates a user preference in Jira by setting or modifying a specific key-value pair using the PUT method. |
 | `delete_locale` | Deletes the locale preference for a user, restoring the default locale setting, using the Jira Cloud platform REST API. |
 | `get_locale` | Retrieves the locale preference for the currently authenticated user in Jira using the GET method. |
 | `set_locale` | Updates the user's locale preference in Jira, restoring the default if no value is specified (deprecated, use user management API instead). |
 | `get_current_user` | Retrieves the authenticated user's profile details (with privacy-based limitations on sensitive fields) from Jira Cloud. |
 | `get_notification_schemes` | Retrieves notification schemes listing configured events and their notification recipients for Jira issues, supporting filtering by project, ID, and pagination. |
 | `create_notification_scheme` | Creates a new notification scheme using the "POST" method at the "/rest/api/3/notificationscheme" endpoint, returning a successful creation response when the operation is completed. |
-| `get_notification_scheme_to_project_mappings` | Retrieves the association between notification schemes and projects in Jira, including scheme IDs and project IDs, based on query parameters such as notificationSchemeId and projectId. |
+| `get_notification_scheme_projects` | Retrieves the association between notification schemes and projects in Jira, including scheme IDs and project IDs, based on query parameters such as notificationSchemeId and projectId. |
 | `get_notification_scheme` | Retrieves details of a specific notification scheme by its ID using the Jira API, optionally expanding the response with additional details. |
 | `update_notification_scheme` | Updates a notification scheme using its ID, allowing modifications to the scheme's configuration, such as events and recipients. |
 | `add_notifications` | Updates notifications for a specific notification scheme in Jira by adding or modifying event-based notification rules. |
 | `delete_notification_scheme` | Deletes a specific notification scheme in Jira using its ID, returning appropriate status codes for success or error conditions. |
-| `remove_notification_from_notification_scheme` | Deletes a specific notification from a notification scheme in Jira using the specified notification scheme and notification IDs. |
+| `delete_notification_from_scheme` | Deletes a specific notification from a notification scheme in Jira using the specified notification scheme and notification IDs. |
 | `get_all_permissions` | Retrieves details of global and project permissions granted to a user using the Jira Cloud REST API. |
 | `get_bulk_permissions` | Checks user permissions in Jira projects and returns global and project-specific permission details. |
 | `get_permitted_projects` | Retrieves all projects where a user has specified project permissions and returns the list of projects with granted access. |
@@ -318,15 +327,18 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_plans` | Retrieves plan details using pagination and optional filters for trashed or archived items. |
 | `create_plan` | Creates a new plan resource via the specified endpoint, requiring a request body with plan details and supporting optional useGroupId query parameter for group association. |
 | `get_plan` | Retrieves the details of a specific plan identified by its planId using a GET request. |
+| `update_plan` | Updates a plan with the specified ID in "/rest/api/3/plans/plan/{planId}" using the PUT method, potentially modifying plan details based on provided parameters. |
 | `archive_plan` | Archives a specific plan in Jira using the PUT method at the "/rest/api/3/plans/plan/{planId}/archive" endpoint, identified by the planId parameter. |
 | `duplicate_plan` | Creates a duplicate of the specified Jira plan using the provided plan ID and returns the new plan's details. |
 | `get_teams` | Retrieves a paginated list of teams associated with a specific plan in Jira Cloud. |
 | `add_atlassian_team` | Adds an Atlassian team to a plan using the Jira Cloud API and returns a status message, allowing for the management of team configurations within plans. |
 | `remove_atlassian_team` | Deletes an Atlassian team from a specified plan in Jira Cloud using the "DELETE" method, requiring plan ID and Atlassian team ID as path parameters. |
 | `get_atlassian_team` | Retrieves planning settings for an Atlassian team within a specific plan in Jira. |
+| `update_atlassian_team` | Associates a specified Atlassian team with a plan identified by a plan ID, using the "PUT" method to update the team assignment. |
 | `create_plan_only_team` | Creates a plan-only team in a Jira Cloud plan with specified planning settings and returns the configuration. |
 | `delete_plan_only_team` | Deletes a specific team associated with a plan in a REST API (likely related to project management or issue tracking). |
 | `get_plan_only_team` | Retrieves planning settings for a specific plan-only team in a Jira plan using the Jira Cloud REST API. |
+| `update_plan_only_team` | Updates planning settings for a specific team in a Jira plan using the provided parameters and returns a success status upon completion. |
 | `trash_plan` | Moves a specified plan to trash using the Jira API and returns an empty response on success. |
 | `get_priorities` | Retrieves a list of all issue priorities in Jira using the "/rest/api/3/priority" endpoint with the GET method. |
 | `create_priority` | Creates a new priority in Jira with specified properties and returns the generated ID. |
@@ -339,14 +351,14 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_priority_schemes` | Retrieves priority schemes and their associated priorities from a Jira instance using various filters such as priority ID, scheme ID, scheme name, and more. |
 | `create_priority_scheme` | Creates a new priority scheme with configurable priority mappings and project associations in Jira. |
 | `suggested_priorities_for_mappings` | Submits priority mappings for a scheme and returns the updated configuration upon completion. |
-| `get_available_priorities_by_priority_scheme` | Retrieves a paginated list of available priorities for a specified priority scheme or across all schemes, supporting filtering by query and exclusion criteria. |
+| `list_priorities` | Retrieves a paginated list of available priorities for a specified priority scheme or across all schemes, supporting filtering by query and exclusion criteria. |
 | `delete_priority_scheme` | Deletes a specific priority scheme identified by its scheme ID, causing projects that were using it to default to the standard priority scheme. |
 | `update_priority_scheme` | Updates a Jira priority scheme configuration with the given ID, rejecting updates if they would require issue migrations. |
 | `get_priorities_by_priority_scheme` | Retrieves a paginated list of priorities associated with a specific priority scheme in Jira, supporting startAt and maxResults parameters. |
 | `get_projects_by_priority_scheme` | Retrieves a list of projects associated with a specific priority scheme in Jira. |
 | `get_all_projects` | Retrieves project details from Jira with optional parameters to expand properties, limit to recent projects, or include specific properties. |
 | `create_project` | Creates a new Jira project using the REST API, allowing the specification of project details such as key, name, type, and description. |
-| `create_project_with_custom_template` | Creates a project in Jira from a specified project template and returns a redirect response to the new project. |
+| `create_project_template` | Creates a project in Jira from a specified project template and returns a redirect response to the new project. |
 | `get_recent` | Retrieves a list of up to 20 recently viewed projects still visible to the user. |
 | `search_projects` | Searches for Jira projects using various criteria such as project ID, keys, category, and more, returning a list of matching projects based on the specified parameters using the Jira Cloud REST API. |
 | `get_all_project_types` | Retrieves all project types available in Jira Cloud, including those without valid licenses, and can be accessed anonymously without permissions. |
@@ -359,10 +371,11 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `archive_project` | Archives a Jira project using the "POST" method by specifying the project ID or key in the path "/rest/api/3/project/{projectIdOrKey}/archive". |
 | `update_project_avatar` | Sets the displayed avatar for a Jira project using the specified project ID or key. |
 | `delete_project_avatar` | Deletes a custom project avatar (system avatars cannot be deleted) using the Jira REST API. |
+| `create_project_avatar` | Loads a custom avatar for a Jira project using the specified parameters and returns the avatar details upon success. |
 | `get_all_project_avatars` | Retrieves the list of avatars associated with a specified Jira project, including system and custom avatars. |
-| `remove_default_project_classification` | Removes the default data classification level from a Jira project using the Jira Cloud API, returning a status code indicating success or failure. |
-| `get_default_project_classification` | Retrieves the default data classification level configured for a specified Jira project. |
-| `update_default_project_classification` | Updates the default data classification level for a Jira project. |
+| `delete_classification_level` | Removes the default data classification level from a Jira project using the Jira Cloud API, returning a status code indicating success or failure. |
+| `get_project_classification_level` | Retrieves the default data classification level configured for a specified Jira project. |
+| `update_project_class_default` | Updates the default data classification level for a Jira project. |
 | `get_project_components_paginated` | Retrieves a paginated list of components associated with a specified Jira project, optionally filtered and ordered by query parameters. |
 | `get_project_components` | Retrieves a list of components for a specified Jira project using its ID or key, with optional filtering by component source. |
 | `delete_project_asynchronously` | Deletes a Jira project specified by its ID or key via a POST request and returns relevant status codes. |
@@ -371,6 +384,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_project_property_keys` | Retrieves a list of project property keys for a specified project in Jira Cloud using the provided project ID or key. |
 | `delete_project_property` | Deletes a specific project property from a Jira project using the project ID or key and property key, requiring administrative permissions. |
 | `get_project_property` | Retrieves the value of a specific project property using the Jira Cloud API and returns it based on the provided project ID or key and property key. |
+| `set_project_property` | Updates a project property using the Jira Cloud REST API, allowing custom data to be stored against a specific project by setting the value of a specified property key. |
 | `restore` | Restores a deleted or archived Jira project identified by its project ID or key. |
 | `get_project_roles` | Retrieves a list of project roles (including names, IDs, and self URLs) for a specific Jira project using its ID or key. |
 | `delete_actor` | Deletes a user or group from a specific project role in Jira, returning a success status if removed. |
@@ -385,7 +399,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `update_project_email` | Updates the sender email address for a specific project's notifications and returns a success status upon completion. |
 | `get_hierarchy` | Retrieves the hierarchy details for a specific project using the `GET` method at path "/rest/api/3/project/{projectId}/hierarchy". |
 | `get_project_issue_security_scheme` | Retrieves the issue security level scheme associated with a specified project in Jira. |
-| `get_notification_scheme_for_project` | Retrieves the notification scheme associated with a specific project in Jira, including event configurations and recipient details. |
+| `get_notification_scheme_by_project` | Retrieves the notification scheme associated with a specific project in Jira, including event configurations and recipient details. |
 | `get_assigned_permission_scheme` | Retrieves the permission scheme associated with a specified Jira project by its key or ID, allowing optional expansion of certain details. |
 | `assign_permission_scheme` | Assigns a permission scheme to a project using the Jira Cloud API, allowing administrators to manage project permissions by associating a specific permission scheme with a given project. |
 | `get_security_levels_for_project` | Retrieves issue security levels for a specified project using the provided project key or ID, returning details about the security levels associated with the project. |
@@ -411,7 +425,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `get_project_role_by_id` | Retrieves a specific role in Jira by its ID using the GET method and returns the role details. |
 | `partial_update_project_role` | Updates a specific project role's configuration and returns the modified role details. |
 | `fully_update_project_role` | Updates or replaces an existing role's configuration via specified ID and returns the operation status. |
-| `delete_project_role_actors_from_role` | Deletes actors from a role using the "DELETE" method with options to specify a user or group ID, and returns corresponding status codes based on the success or failure of the operation. |
+| `delete_role_actor_by_id` | Deletes actors from a role using the "DELETE" method with options to specify a user or group ID, and returns corresponding status codes based on the success or failure of the operation. |
 | `get_project_role_actors_for_role` | Retrieves a list of actors associated with a specified role ID using the Jira REST API. |
 | `add_project_role_actors_to_role` | Adds or modifies actors (users/groups) for a specific project role ID and returns the updated role details. |
 | `get_screens` | Retrieves a paginated list of all screens or specified screens by ID in Jira, allowing for optional filtering by query parameters such as start position, maximum results, and query string. |
@@ -438,11 +452,12 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `search_for_issues_using_jql_post` | Searches Jira issues using JQL queries and returns paginated results. |
 | `count_issues` | Retrieves an approximate count of Jira issues matching a specified JQL query using the POST method at the "/rest/api/3/search/approximate-count" endpoint. |
 | `search_for_issues_ids` | Searches for Jira issues using JQL (Jira Query Language) and returns a list of matching issue IDs, along with a token for fetching additional results if needed, using the `POST` method at the path "/rest/api/3/search/id". |
-| `search_and_reconsile_issues_using_jql` | Retrieves a list of Jira issues matching a JQL query with pagination support, customizable field selection, and result optimization options. |
-| `search_and_reconsile_issues_using_jql_post` | Executes a JQL query to search for issues, returning matching results and pagination tokens. |
+| `get_search_by_jql` | Retrieves a list of Jira issues matching a JQL query with pagination support, customizable field selection, and result optimization options. |
+| `post_search_jql` | Executes a JQL query to search for issues, returning matching results and pagination tokens. |
 | `get_issue_security_level` | Retrieves details of a specific issue security level by its ID in Jira. |
 | `get_server_info` | Retrieves information about the Jira instance using the "GET" method at the "/rest/api/3/serverInfo" endpoint. |
-| `get_issue_navigator_default_columns` | Retrieves settings for columns using the Jira API and returns relevant data. |
+| `list_columns` | Retrieves settings for columns using the Jira API and returns relevant data. |
+| `update_settings_columns` | Updates board column configurations via a PUT request to modify their settings. |
 | `get_statuses` | Retrieves the operational status and readiness of the Jira instance via a lightweight endpoint for monitoring. |
 | `get_status` | Retrieves a specific status by its ID or name from Jira using the Jira REST API. |
 | `get_status_categories` | Retrieves a list of all visible Jira issue status categories in JSON format. |
@@ -452,7 +467,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `create_statuses` | Creates commit statuses (error, failure, pending, success) with optional descriptions and target URLs via the GitHub API. |
 | `update_statuses` | Updates the statuses in Jira using the PUT method at the "/rest/api/3/statuses" endpoint and returns a status message. |
 | `search` | Retrieves a paginated list of Jira statuses with optional filtering by project, search string, or status category. |
-| `get_project_issue_type_usages_for_status` | Retrieves a paginated list of issue types associated with a specific project and status, including pagination controls via `nextPageToken` and `maxResults`. |
+| `get_issue_type_usages` | Retrieves a paginated list of issue types associated with a specific project and status, including pagination controls via `nextPageToken` and `maxResults`. |
 | `get_project_usages_for_status` | Retrieves project usage information for a specific status identified by the status ID, supporting pagination through optional parameters for the next page token and maximum results. |
 | `get_workflow_usages_for_status` | Retrieves the workflows associated with a specific status ID and returns their usage details. |
 | `get_task` | Retrieves details for a specific task by ID using a REST API GET request. |
@@ -462,6 +477,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `delete_ui_modification` | Deletes a UI modification with the specified ID from the system using the DELETE HTTP method. |
 | `update_ui_modification` | Updates a UI modification identified by `uiModificationId` using the PUT method. |
 | `get_avatars` | Retrieves details about a universal avatar by its type and owner entity ID using the Jira API. |
+| `store_avatar` | Creates a new avatar for the specified entity type (e.g., project, issue) using provided parameters (x, y, size) and returns a success status. |
 | `delete_avatar` | Deletes a specified avatar associated with a resource type and owner using the Jira API. |
 | `get_avatar_image_by_type` | Retrieves a Jira avatar image by type using the "GET" method, allowing specification of size and format for customization. |
 | `get_avatar_image_by_id` | Retrieves a specific avatar by type and ID using the Jira Universal Avatar API, allowing customization and display in various formats and sizes. |
@@ -475,15 +491,18 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `bulk_get_users_migration` | Retrieves user migration information in bulk for Jira using the GET method, allowing filtering by username, key, and pagination via startAt and maxResults parameters. |
 | `reset_user_columns` | Deletes a user's saved column configuration in Jira based on either their account ID or username. |
 | `get_user_default_columns` | Retrieves the default issue table columns for a Jira user, specified by either an accountId or the calling user if no accountId is provided, using the Jira Cloud Platform REST API. |
+| `set_user_columns` | Updates the columns displayed for a specific user's issue list view in Jira and returns a success status upon completion. |
 | `get_user_email` | Retrieves a user's email address for the specified Atlassian account ID using the Jira Cloud API. |
 | `get_user_email_bulk` | Retrieves email addresses for multiple Jira users by their account IDs in a single request, bypassing profile visibility restrictions. |
 | `get_user_groups` | Retrieves a list of groups associated with a specified Jira user account using their accountId, username, or key. |
 | `get_user_nav_property` | Retrieves the value associated with a specified property key for a given account using the GET method. |
+| `set_user_nav_property` | Updates a user's navigation property (specified by propertyKey) in Jira using account-based identification and returns the operation status. |
 | `find_users_with_all_permissions` | Retrieves users with specified global or project permissions, filtered by query, account ID, or project/issue context, including pagination support. |
 | `find_users_for_picker` | Retrieves a list of users and groups for a picker field, allowing filtering by query, exclusion parameters, and pagination, to populate user or group suggestion lists in Jira applications. |
 | `get_user_property_keys` | Retrieves the keys of all properties for a user using the Jira Cloud REST API. |
 | `delete_user_property` | Deletes a user property identified by a specific property key using the Jira Cloud platform REST API, requiring permissions to manage user properties. |
 | `get_user_property` | Retrieves the value of a specified user property using the Jira Cloud API, returning the custom data associated with a user for a given property key. |
+| `set_user_property` | Sets or updates a custom property value for a specific Jira user, enabling per-user data storage for integrations and apps. |
 | `find_users` | Searches for Jira users by matching a query against display names and email addresses, supporting pagination and specific property filters. |
 | `find_users_by_query` | Searches for users in Jira based on query parameters, returning paginated results. |
 | `find_user_keys_by_query` | Searches for users based on a specified query, returning a list of matching users, with options to control the result set size and starting point. |
@@ -510,18 +529,18 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `refresh_webhooks` | Refreshes Jira webhooks created via Connect Apps to extend their expiration dates using a PUT request. |
 | `get_all_workflows` | Retrieves a list of all workflows in Jira or a specific workflow by name, depending on whether the `workflowName` parameter is provided, using the Jira Cloud REST API. |
 | `create_workflow` | Creates a new workflow configuration in Jira Cloud using the REST API by sending a POST request to the "/rest/api/3/workflow" endpoint. |
-| `get_workflow_transition_rule_configurations` | Retrieves and configures workflow rule configurations in Jira using the GET method, allowing filtering by various parameters such as workflow names and types. |
-| `update_workflow_transition_rule_configurations` | Updates the configuration of a workflow transition rule using the Jira API, allowing customization of conditions under which a transition can occur. |
-| `delete_workflow_transition_rule_configurations` | Deletes workflow transition rule configurations from Jira workflows using the "PUT" method. |
+| `list_workflow_rule_configs` | Retrieves and configures workflow rule configurations in Jira using the GET method, allowing filtering by various parameters such as workflow names and types. |
+| `update_workflow_rule_config` | Updates the configuration of a workflow transition rule using the Jira API, allowing customization of conditions under which a transition can occur. |
+| `delete_workflow_rule_config` | Deletes workflow transition rule configurations from Jira workflows using the "PUT" method. |
 | `get_workflows_paginated` | Retrieves a list of workflows in Jira using pagination, allowing filtering by parameters such as workflow name, query string, and active status, and optionally expanding details like statuses. |
-| `delete_workflow_transition_property` | Deletes a specified property from a workflow transition in Jira using the "DELETE" method, allowing changes to the behavior of transitions by removing custom properties. |
-| `get_workflow_transition_properties` | Retrieves workflow transition properties for a specified transition ID using query parameters to filter results by keys and workflow details. |
-| `create_workflow_transition_property` | Creates a workflow transition property using the Jira Cloud API by sending a POST request to the specified endpoint, allowing users to store custom data against a workflow transition and modify its behavior. |
-| `update_workflow_transition_property` | Updates a workflow transition property (or creates it if nonexistent) in Jira Cloud using the transition ID, workflow name, and key. |
+| `delete_transition_property` | Deletes a specified property from a workflow transition in Jira using the "DELETE" method, allowing changes to the behavior of transitions by removing custom properties. |
+| `get_transition_properties` | Retrieves workflow transition properties for a specified transition ID using query parameters to filter results by keys and workflow details. |
+| `update_transition_property` | Creates a workflow transition property using the Jira Cloud API by sending a POST request to the specified endpoint, allowing users to store custom data against a workflow transition and modify its behavior. |
+| `put_workflow_transition_property` | Updates a workflow transition property (or creates it if nonexistent) in Jira Cloud using the transition ID, workflow name, and key. |
 | `delete_inactive_workflow` | Deletes a specified workflow by its entity ID using the Jira API and returns an empty response on success. |
-| `get_workflow_project_issue_type_usages` | Retrieves issue type usage for a specific workflow within a project using the Jira API, returning data on how issue types are used in that workflow. |
+| `get_workflow_issue_type_usages` | Retrieves issue type usage for a specific workflow within a project using the Jira API, returning data on how issue types are used in that workflow. |
 | `get_project_usages_for_workflow` | Retrieves the list of projects that use a specified workflow in Jira, supporting pagination with optional parameters for next page token and maximum results. |
-| `get_workflow_scheme_usages_for_workflow` | Retrieves a list of workflow schemes associated with a specific workflow ID, allowing pagination through query parameters like nextPageToken and maxResults. |
+| `list_workflow_schemes` | Retrieves a list of workflow schemes associated with a specific workflow ID, allowing pagination through query parameters like nextPageToken and maxResults. |
 | `read_workflows` | Creates new workflows in Jira Cloud using the REST API with the specified parameters and returns a response indicating the outcome. |
 | `workflow_capabilities` | Retrieves workflow capabilities (e.g., transitions, statuses) based on specified workflow, project, or issue type identifiers. |
 | `create_workflows` | Creates a Jira workflow via REST API and returns success/failure status codes. |
@@ -531,7 +550,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `validate_update_workflows` | Validates workflow updates for Jira Cloud using specified criteria and returns validation results. |
 | `get_all_workflow_schemes` | Retrieves a list of workflow schemes in Jira Cloud, allowing for pagination by specifying a start index and maximum number of results, using the Atlassian Jira Cloud REST API. |
 | `create_workflow_scheme` | Creates a new workflow scheme in Jira Cloud with specified configurations like default workflow and issue type mappings. |
-| `get_workflow_scheme_project_associations` | Retrieves the workflow scheme project associations for a specified project using the provided `projectId` in the query parameters. |
+| `get_workflow_schemes_by_project_id` | Retrieves the workflow scheme project associations for a specified project using the provided `projectId` in the query parameters. |
 | `assign_scheme_to_project` | Associates a workflow scheme with a Jira project using the specified scheme ID. |
 | `read_workflow_schemes` | Retrieves a list of workflow schemes using provided workflow scheme IDs or project IDs via the Jira Cloud REST API. |
 | `update_schemes` | Updates Jira workflow schemes (company-managed or team-managed projects) with immediate effect, optionally creating a draft if active, and migrates issues asynchronously when changing status mappings. |
@@ -539,7 +558,7 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `delete_workflow_scheme` | Deletes a specified workflow scheme in Jira, which cannot be active (used by projects), and returns a success status upon completion. |
 | `get_workflow_scheme` | Retrieves a workflow scheme by ID from Jira, optionally returning the draft version if it exists. |
 | `update_workflow_scheme` | Updates a workflow scheme by setting a new default workflow, allowing for the creation or update of a draft scheme if the original is active. |
-| `create_workflow_scheme_draft_from_parent` | Creates a draft copy of a specified workflow scheme in Jira using the REST API. |
+| `create_workflow_draft` | Creates a draft copy of a specified workflow scheme in Jira using the REST API. |
 | `delete_default_workflow` | Deletes the default workflow from a Jira workflow scheme, resetting it to the system default (jira workflow) and optionally creates/updates a draft workflow scheme if specified. |
 | `get_default_workflow` | Retrieves the default workflow assigned to unassociated issue types in a specified Jira workflow scheme. |
 | `update_default_workflow` | Updates the default workflow in a Jira Cloud workflow scheme, which applies to all unassigned issue types. |
@@ -549,9 +568,9 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `delete_draft_default_workflow` | Deletes the default workflow for a draft workflow scheme, resetting it to Jira's system workflow, using the specified scheme ID. |
 | `get_draft_default_workflow` | Retrieves the default workflow configuration for a draft workflow scheme in Jira. |
 | `update_draft_default_workflow` | Sets the default workflow for a draft workflow scheme in Jira, enabling configuration changes before publication. |
-| `delete_workflow_scheme_draft_issue_type` | Deletes a specific issue type mapping from a draft workflow scheme in Jira using the provided workflow scheme ID and issue type. |
-| `get_workflow_scheme_draft_issue_type` | Retrieves the workflow configuration for a specific issue type in a draft workflow scheme. |
-| `set_workflow_scheme_draft_issue_type` | Updates an issue type in a workflow scheme draft using the Jira Cloud API, allowing modifications to workflow mappings without affecting the active scheme until published. |
+| `delete_issue_type_draft_from_scheme` | Deletes a specific issue type mapping from a draft workflow scheme in Jira using the provided workflow scheme ID and issue type. |
+| `get_issue_type_draft` | Retrieves the workflow configuration for a specific issue type in a draft workflow scheme. |
+| `update_workflow_draft_issue_type` | Updates an issue type in a workflow scheme draft using the Jira Cloud API, allowing modifications to workflow mappings without affecting the active scheme until published. |
 | `publish_draft_workflow_scheme` | Publishes a draft workflow scheme in Jira, replacing the active scheme upon successful execution. |
 | `delete_draft_workflow_mapping` | Deletes a specific workflow associated with a draft workflow scheme in Jira. |
 | `get_draft_workflow` | Retrieves the workflow configuration for a draft workflow scheme in Jira by ID and optional workflow name. |
@@ -562,18 +581,20 @@ This is automatically generated from OpenAPI schema for the JiraApp API.
 | `delete_workflow_mapping` | Deletes a specific workflow from a workflow scheme identified by the provided ID, optionally updating a draft if the scheme is active, using the Jira Cloud REST API. |
 | `get_workflow` | Retrieves the workflow configuration for a specified workflow scheme in Jira, optionally returning draft configurations if they exist. |
 | `update_workflow_mapping` | Updates a specified workflow scheme by assigning a new workflow, identified by the `workflowName` query parameter, to it using the Jira Cloud platform's REST API. |
-| `get_project_usages_for_workflow_scheme` | Retrieves the list of projects associated with a specific workflow scheme using pagination. |
+| `get_project_usages` | Retrieves the list of projects associated with a specific workflow scheme using pagination. |
 | `get_ids_of_worklogs_deleted_since` | Retrieves a list of IDs and delete timestamps for worklogs that have been deleted since a specified time using the Jira API. |
 | `get_worklogs_for_ids` | Retrieves a list of worklogs for specified IDs using the Jira API and returns their details. |
 | `get_ids_of_worklogs_modified_since` | Retrieves a paginated list of updated worklogs in Jira with optional filtering by timestamp and property expansion. |
-| `addon_properties_resource_get_addon_properties_get` | Retrieves all property keys for a specified Atlassian Connect app. |
-| `addon_properties_resource_delete_addon_property_delete` | Deletes a specific property of an Atlassian Connect app using the "DELETE" method, requiring the app's addon key and the property key to be specified in the request path. |
-| `addon_properties_resource_get_addon_property_get` | Retrieves a specific property value for a Connect app using the provided addon key and property key. |
-| `dynamic_modules_resource_remove_modules_delete` | Removes specified or all dynamically registered modules for the calling app via query parameters. |
-| `dynamic_modules_resource_get_modules_get` | Retrieves all dynamically registered modules for the calling Connect app in Jira. |
-| `dynamic_modules_resource_register_modules_post` | Registers dynamic modules in Atlassian Connect apps using the POST method, allowing the specification of modules to be registered via a JSON object. |
-| `app_issue_field_value_update_resource_update_issue_fields_put` | Updates multiple entity properties (up to 50 per request) for a specified object during Connect app migrations. |
-| `migration_resource_update_entity_properties_value_put` | Updates properties for a specific entity type during Atlassian Connect app migration using the provided transfer ID. |
-| `migration_resource_workflow_rule_search_post` | Searches for and returns workflow transition rule configurations migrated from server to cloud, owned by the calling Connect app, using the Jira Cloud REST API. |
-| `service_registry_resource_services_get` | Retrieves and registers services from the Atlassian Connect service registry using the provided service IDs. |
+| `get_addon_properties` | Retrieves all property keys for a specified Atlassian Connect app. |
+| `delete_addon_property` | Deletes a specific property of an Atlassian Connect app using the "DELETE" method, requiring the app's addon key and the property key to be specified in the request path. |
+| `get_addon_property` | Retrieves a specific property value for a Connect app using the provided addon key and property key. |
+| `update_addon_property` | Updates an app property in Jira Cloud by setting a value for the specified `propertyKey` under the provided `addonKey`, allowing Connect apps to store custom data. |
+| `delete_module` | Removes specified or all dynamically registered modules for the calling app via query parameters. |
+| `list_dynamic_modules` | Retrieves all dynamically registered modules for the calling Connect app in Jira. |
+| `create_module` | Registers dynamic modules in Atlassian Connect apps using the POST method, allowing the specification of modules to be registered via a JSON object. |
+| `put_migration_field_update` | Updates multiple entity properties (up to 50 per request) for a specified object during Connect app migrations. |
+| `update_entity_properties` | Updates properties for a specific entity type during Atlassian Connect app migration using the provided transfer ID. |
+| `search_workflow_rules` | Searches for and returns workflow transition rule configurations migrated from server to cloud, owned by the calling Connect app, using the Jira Cloud REST API. |
+| `get_service_registry_by_ids` | Retrieves and registers services from the Atlassian Connect service registry using the provided service IDs. |
 | `delete_forge_app_property` | Deletes a property identified by the provided `propertyKey` from the application using the DELETE method and returns a successful response if the operation completes without returning any content. |
+| `put_forge_app_property` | Updates or creates a specific application property using the PUT method at the specified path "/rest/forge/1/app/properties/{propertyKey}" based on the provided property key. |
